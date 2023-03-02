@@ -74,6 +74,7 @@ export class UsersService {
                 fullName: rest.fullName.trim(),
                 recovery: recoveryNewUser,
                 password: pass,
+                updated_at: new Date(),
               })
               .then((result) => {
                 next({ etat: true, result });
