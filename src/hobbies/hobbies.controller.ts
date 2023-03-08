@@ -1,8 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { HobbiesService } from './hobbies.service';
 import { CreateHobbyDto } from './dto/create-hobby.dto';
 import { UpdateHobbyDto } from './dto/update-hobby.dto';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ResponseProviderClass } from 'src/common/ResponseProvider';
 
+@ApiTags('Hobbies')
 @Controller('hobbies')
 export class HobbiesController {
   constructor(private readonly hobbiesService: HobbiesService) {}
@@ -12,7 +23,13 @@ export class HobbiesController {
     return this.hobbiesService.create(createHobbyDto);
   }
 
-  @Get()
+  @ApiOkResponse({
+    status: 200,
+    description:
+      'create User return {etat:true, result: Object} if success and {etat: false, error: "error message"}',
+    type: ResponseProviderClass,
+  })
+  @Get('all/:id')
   findAll() {
     return this.hobbiesService.findAll();
   }

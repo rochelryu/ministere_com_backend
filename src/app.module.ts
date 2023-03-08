@@ -7,6 +7,7 @@ import { ActualitiesModule } from './actualities/actualities.module';
 import { ALL_ENTITY } from './common/constant';
 import 'dotenv/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MiddlewareModule } from './middleware/middleware.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -26,6 +27,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     UsersModule,
     HobbiesModule,
     ActualitiesModule,
+    MiddlewareModule,
   ],
   controllers: [AppController],
   providers: [AppService],

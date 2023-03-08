@@ -19,6 +19,9 @@ export class HobbyEntity extends BaseEntity {
   @Column({ length: 100 })
   name: string;
 
+  @Column({ length: 150 })
+  picture: string;
+
   @OneToMany(
     () => LiaisonActualityHobbyEntity,
     (liaisonActualityHobbyEntity) => liaisonActualityHobbyEntity.hobbyId,

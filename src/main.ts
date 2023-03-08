@@ -27,6 +27,7 @@ async function bootstrap() {
     .setDescription('The mini API description')
     .setVersion('1.0')
     .addTag('Users')
+    .addTag('Hobbies')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('doc', app, document);

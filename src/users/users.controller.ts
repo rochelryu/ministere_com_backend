@@ -16,11 +16,11 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { SigninUserDto } from './dto/signin-user.dto';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @ApiTags('Users')
   @ApiOkResponse({
     status: 200,
     description:
@@ -37,7 +37,6 @@ export class UsersController {
     }
   }
 
-  @ApiTags('Users')
   @ApiOkResponse({
     status: 200,
     description:
