@@ -23,7 +23,7 @@ export class HobbiesService {
   findAll(): Promise<ResponseProvider> {
     return new Promise(async (next) => {
       await this.hobbiesRepository
-        .find({ where: {} })
+        .find({ where: {}, order: { name: 'ASC' } })
         .then((result) => {
           next({ etat: true, result });
         })
