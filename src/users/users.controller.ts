@@ -15,16 +15,22 @@ import {
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { SigninUserDto } from './dto/signin-user.dto';
+import { HobbiesService } from 'src/hobbies/hobbies.service';
+import { UpdateHobbyUserDto } from 'src/hobbies/dto/update-hobby.dto';
+import { generateRecovery } from 'src/common/functions';
 
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly hobbiesService: HobbiesService,
+  ) {}
 
   @ApiOkResponse({
     status: 200,
     description:
-      'create User return {etat:true, result: {name, id, numberClient}} if success and {etat: false, error: "error message"}',
+      'create User return {etat:true, result: {name, id, numberClient, recovery}} if success and {etat: false, error: "error message"}',
     type: ResponseAuthenticationUser,
   })
   @Post('create')
@@ -35,6 +41,29 @@ export class UsersController {
     } else {
       return { etat: false, error: newUser.error.message };
     }
+  }
+
+  @ApiTags('Hobbies')
+  @ApiOkResponse({
+    status: 200,
+    description:
+      'update hobbies of User return {etat:true, result: {recovery}} if success and {etat: false, error: "error message"}',
+    type: ResponseAuthenticationUser,
+  })
+  @Post('updateHobbies')
+  async updateHobbies(@Body() updateHobbyUserDto: UpdateHobbyUserDto) {
+    for (const choice of updateHobbyUserDto.choiceHobbie) {
+      await this.hobbiesService.createLiaisonHobbiesUser(
+        updateHobbyUserDto.id,
+        choice,
+      );
+    }
+    const recoveryNewUser = generateRecovery();
+    const updateRecovery = await this.usersService.updateUserByItem(
+      updateHobbyUserDto.id,
+      { recovery: recoveryNewUser },
+    );
+    return { etat: true, result: updateRecovery.result };
   }
 
   @ApiOkResponse({
@@ -61,11 +90,6 @@ export class UsersController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')

@@ -39,6 +39,7 @@ export class UsersService {
                 numberClient: result.numberClient,
                 fullName: result.fullName,
                 id: result.id,
+                recovery: result.recovery,
               },
             });
           } else {
@@ -96,8 +97,23 @@ export class UsersService {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  updateUserByItem(id: number, item): Promise<ResponseProvider> {
+    return new Promise(async (next) => {
+      await this.usersRepository
+        .update(id, item)
+        .then(async (result) => {
+          const user = await this.usersRepository.findOne({ where: { id } });
+          next({ etat: true, result: { recovery: user.recovery } });
+        })
+        .catch((error) =>
+          next({
+            etat: false,
+            error: new Error(
+              'la mise à jour a échoué, veuillez ressayer plutard',
+            ),
+          }),
+        );
+    });
   }
 
   remove(id: number) {

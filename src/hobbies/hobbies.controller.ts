@@ -1,15 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { HobbiesService } from './hobbies.service';
-import { CreateHobbyDto } from './dto/create-hobby.dto';
-import { UpdateHobbyDto } from './dto/update-hobby.dto';
+import { UpdateHobbyUserDto } from './dto/update-hobby.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ResponseProviderClass } from 'src/common/ResponseProvider';
 
@@ -18,15 +9,15 @@ import { ResponseProviderClass } from 'src/common/ResponseProvider';
 export class HobbiesController {
   constructor(private readonly hobbiesService: HobbiesService) {}
 
-  @Post()
-  create(@Body() createHobbyDto: CreateHobbyDto) {
-    return this.hobbiesService.create(createHobbyDto);
-  }
+  // @Post('choice')
+  // create(@Body() createHobbyDto: UpdateHobbyUserDto) {
+  //   return this.hobbiesService.create(createHobbyDto);
+  // }
 
   @ApiOkResponse({
     status: 200,
     description:
-      'create User return {etat:true, result: Object} if success and {etat: false, error: "error message"}',
+      'return all Hobbies {etat:true, result: [{id:number, name:string,picture:string}]} if success and {etat: false, error: "error message"} if fail',
     type: ResponseProviderClass,
   })
   @Get('all/:id')
@@ -36,12 +27,7 @@ export class HobbiesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.hobbiesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateHobbyDto: UpdateHobbyDto) {
-    return this.hobbiesService.update(+id, updateHobbyDto);
+    return this.hobbiesService.findOneByItem({ id: parseInt(id, 10) });
   }
 
   @Delete(':id')

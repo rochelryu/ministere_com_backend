@@ -10,7 +10,6 @@ export class MiddlewareModule {
     consumer.apply(VerifyClientMiddleware).forRoutes(
       // For Hobie
       { path: 'hobbies/all/:id', method: RequestMethod.GET },
-      { path: 'hobbies/choice', method: RequestMethod.POST },
 
       // For actualities
       { path: 'actualities/all/:id', method: RequestMethod.GET },
