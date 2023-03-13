@@ -92,6 +92,16 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
+  @ApiTags('Hobbies')
+  @Get('/getHobbies/:id')
+  async getHobbies(@Param('id') id: string) {
+    const hobbies = await this.hobbiesService.findLiaisonHobbiesUserByItem({
+      userId: parseInt(id, 10),
+    });
+    console.log(hobbies);
+    return [];
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);

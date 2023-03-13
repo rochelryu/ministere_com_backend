@@ -62,4 +62,17 @@ export class HobbiesService {
         });
     });
   }
+
+  async findLiaisonHobbiesUserByItem(item): Promise<ResponseProvider> {
+    return new Promise(async (next) => {
+      await this.liaisonUserHobbyRepository
+        .find({ where: item, relations: ['hobby'] })
+        .then((result) => {
+          next({ etat: true, result });
+        })
+        .catch((error) => {
+          next({ etat: false, error });
+        });
+    });
+  }
 }
