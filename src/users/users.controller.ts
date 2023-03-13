@@ -100,8 +100,11 @@ export class UsersController {
     });
     const myHobbies = [];
     for (const item of hobbies.result) {
-      console.log(item.hobby);
-      myHobbies.push(item.hobby);
+      myHobbies.push({
+        name: item.hobby.name,
+        id: item.hobby.id,
+        picture: item.hobby.picture,
+      });
     }
     return { etat: true, result: myHobbies };
   }
