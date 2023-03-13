@@ -98,8 +98,12 @@ export class UsersController {
     const hobbies = await this.hobbiesService.findLiaisonHobbiesUserByItem({
       userId: parseInt(id, 10),
     });
-    console.log(hobbies);
-    return [];
+    const myHobbies = [];
+    for (const item of hobbies.result) {
+      console.log(item.hobby[0]);
+      myHobbies.push(item.hobby[0]);
+    }
+    return { etat: true, result: myHobbies };
   }
 
   @Delete(':id')
