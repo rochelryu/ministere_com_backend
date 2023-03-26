@@ -5,13 +5,11 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
   BaseEntity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   OneToOne,
-  ManyToMany,
 } from 'typeorm';
 
 @Entity()
@@ -20,6 +18,18 @@ export class ActualityEntity extends BaseEntity {
 
   @Column()
   title: string;
+  
+  @Column()
+  sub_title: string;
+
+  @Column({ type: 'longtext' })
+  summary: string;
+
+  @Column({ type: 'longtext' })
+  description: string;
+
+  @Column({ type: 'boolean' })
+  isPortrait: boolean;
 
   @Column()
   imageCover: string;
@@ -57,13 +67,13 @@ export class ContentActualityEntity extends BaseEntity {
   actualityId: number;
 
   @Column({ default: '' })
-  title: string;
-
-  @Column({ default: '' })
-  content: string;
-
-  @Column({ default: '' })
   file: string;
+
+  @Column({ type: 'boolean' })
+  isPortrait: boolean;
+
+  @Column({ default: 'picture' })
+  type: string;
 
   @OneToOne(() => ActualityEntity, (actuality) => actuality.contents)
   @JoinColumn({ name: 'actualityId' })

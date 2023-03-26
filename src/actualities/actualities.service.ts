@@ -1,19 +1,51 @@
 import { Injectable } from '@nestjs/common';
 import { CreateActualityDto } from './dto/create-actuality.dto';
 import { UpdateActualityDto } from './dto/update-actuality.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import {
+  ActualityEntity,
+  LiaisonActualityHobbyEntity,
+} from './entities/actuality.entity';
+import { Repository } from 'typeorm';
+import { ResponseProvider } from 'src/common/interfaces';
 
 @Injectable()
 export class ActualitiesService {
+  constructor(
+    @InjectRepository(ActualityEntity)
+    private actualityRepository: Repository<ActualityEntity>,
+    @InjectRepository(LiaisonActualityHobbyEntity)
+    private liaisonActualityHobbyEntityRepository: Repository<LiaisonActualityHobbyEntity>,
+  ) {}
+
   create(createActualityDto: CreateActualityDto) {
     return 'This action adds a new actuality';
   }
 
-  findAll() {
-    return `This action returns all actualities`;
+  findTheLatestNewsByLimit(
+    item: any,
+    limit: number,
+  ): Promise<ResponseProvider> {
+    return new Promise(async (next) => {
+      await this.actualityRepository
+        .find({ where: item, order: { create_at: 'DESC' } })
+        .then((result) => {
+          result = result.slice(0, limit);
+          next({ etat: true, result });
+        })
+        .catch((error) => next({ etat: false, error: error.message }));
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} actuality`;
+  findOneByItem(item): Promise<ResponseProvider> {
+    return new Promise(async (next) => {
+      await this.actualityRepository
+        .findOne({ where: item, relations: ['contents'] })
+        .then((result) => {
+          next({ etat: true, result });
+        })
+        .catch((error) => next({ etat: false, error: error.message }));
+    });
   }
 
   update(id: number, updateActualityDto: UpdateActualityDto) {
@@ -22,5 +54,31 @@ export class ActualitiesService {
 
   remove(id: number) {
     return `This action removes a #${id} actuality`;
+  }
+
+  findAllLiaisonActualityHobbyEntityByItem(
+    item: any,
+  ): Promise<ResponseProvider> {
+    return new Promise(async (next) => {
+      await this.liaisonActualityHobbyEntityRepository
+        .find({ where: item })
+        .then((result) => {
+          next({ etat: true, result });
+        })
+        .catch((error) => next({ etat: false, error: error.message }));
+    });
+  }
+
+  findOneLiaisonActualityHobbyEntityByItem(
+    item: any,
+  ): Promise<ResponseProvider> {
+    return new Promise(async (next) => {
+      await this.liaisonActualityHobbyEntityRepository
+        .find({ where: item })
+        .then((result) => {
+          next({ etat: true, result });
+        })
+        .catch((error) => next({ etat: false, error: error.message }));
+    });
   }
 }

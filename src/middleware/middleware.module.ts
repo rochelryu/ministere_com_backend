@@ -14,6 +14,18 @@ export class MiddlewareModule {
       // For actualities
       { path: 'actualities/all/:id', method: RequestMethod.GET },
       {
+        path: 'actualities/viewMore/:id/:actualityId',
+        method: RequestMethod.GET,
+      },
+      {
+        path: 'actualities/getByHobby/:id/:hobbyId',
+        method: RequestMethod.GET,
+      },
+      {
+        path: 'actualities/getByHobby/:id/:hobbyId',
+        method: RequestMethod.GET,
+      },
+      {
         path: 'actualities/single/:id/:idActuality',
         method: RequestMethod.GET,
       },
