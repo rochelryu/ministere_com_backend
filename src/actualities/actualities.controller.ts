@@ -65,6 +65,7 @@ export class ActualitiesController {
         ? getAllLiaisonActualityHobby.result.slice(0, limit)
         : getAllLiaisonActualityHobby.result;
     for (const liaisonActualityHobby of allLiaisons) {
+      console.log(liaisonActualityHobby.id);
       const getActuality = await this.actualitiesService.findOneByItem({
         id: liaisonActualityHobby.id,
       });

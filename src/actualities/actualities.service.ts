@@ -40,7 +40,7 @@ export class ActualitiesService {
   findOneByItem(item): Promise<ResponseProvider> {
     return new Promise(async (next) => {
       await this.actualityRepository
-        .findOne({ where: item, relations: ['contents'] })
+        .findOne({ where: item })
         .then((result) => {
           next({ etat: true, result });
         })
