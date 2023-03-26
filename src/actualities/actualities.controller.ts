@@ -31,7 +31,11 @@ export class ActualitiesController {
     type: ResponseProviderClass,
   })
   @Get('all/:id')
-  async findAll(@Query('limit') limit: string) {
+  async findAll(
+    @Param('id') id: string,
+    @Query('limit') limit: string,
+    @Query('recovery') recovery: string,
+  ) {
     return await this.actualitiesService.findTheLatestNewsByLimit(
       {},
       parseInt(limit, 10),
@@ -46,8 +50,10 @@ export class ActualitiesController {
   })
   @Get('getByHobby/:id/:hobbyId')
   async getByHobby(
+    @Param('id') id: string,
     @Param('hobbyId') hobbyId: string,
     @Query('limit') limit: string,
+    @Query('recovery') recovery: string,
   ) {
     const allActuality: any[] = [];
     const getAllLiaisonActualityHobby =
@@ -77,6 +83,7 @@ export class ActualitiesController {
   async viewMore(
     @Param('id') id: string,
     @Param('actualityId') actualityId: string,
+    @Query('recovery') recovery: string,
   ) {
     return await this.actualitiesService.findOneByItem({
       id: parseInt(actualityId, 10),

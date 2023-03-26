@@ -18,7 +18,7 @@ export class ActualityEntity extends BaseEntity {
 
   @Column()
   title: string;
-  
+
   @Column()
   sub_title: string;
 
