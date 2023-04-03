@@ -18,7 +18,7 @@ export class MiddlewareModule {
         method: RequestMethod.GET,
       },
       {
-        path: 'actualities/getByHobby/:id/:hobbyId',
+        path: 'actualities/search/:id',
         method: RequestMethod.GET,
       },
       {

@@ -13,6 +13,7 @@ import { CreateActualityDto } from './dto/create-actuality.dto';
 import { UpdateActualityDto } from './dto/update-actuality.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ResponseProviderClass } from 'src/common/ResponseProvider';
+import { getInfoInAip } from 'src/common/functions';
 
 @ApiTags('Actualities')
 @Controller('actualities')
@@ -40,6 +41,21 @@ export class ActualitiesController {
       {},
       parseInt(limit, 10),
     );
+  }
+
+  @ApiOkResponse({
+    status: 200,
+    description:
+      'return all Actualities in Search Advanced {etat:true, result: []} if success and {etat: false, error: "error message"} if fail',
+    type: ResponseProviderClass,
+  })
+  @Get('search/:id')
+  async search(
+    @Param('id') id: string,
+    @Query('searchText') searchText: string,
+    @Query('recovery') recovery: string,
+  ) {
+    return await getInfoInAip(searchText.trim());
   }
 
   @ApiOkResponse({
